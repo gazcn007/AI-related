@@ -21,14 +21,14 @@ data=byteify(data)
 #modules
 
 #Breath First Search 
-def BFS(input,start,end):
+def BFS(input_data,start,end):
 	#breath search can be implemented by queues
 	counter=0;
 	array=[]
 	array.append(start)
 	findstation=0;
 	while (counter<len(array) and findstation==0):
-		for station in data['stations']:
+		for station in input_data['stations']:
 			if station['name']==end:
 				findstation=1;
 				array.append(station['name'])
@@ -41,6 +41,30 @@ def BFS(input,start,end):
 		counter+=1
 	return array
 
+#Deep First Search 
+def DFS(input_data,start,end):
+	visited=[]
+	stack=[]
+	stack.append(start)
+	findstation=0;
+	while(len(stack)!=0 and findstation==0):
+		currentStation=stack.pop();
+		visited.append(currentStation)
+		for station in input_data['stations']:
+			if station['name']==end:
+				findstation=1;
+				visited.append(station['name'])
+				stack.append(station['name'])
+				break;
+			elif station['name']==currentStation:
+				for neighbour in station['neighbours']:
+					if neighbour['name'] not in visited and neighbour['name'] not in stack:
+						stack.append(neighbour['name'])
+				break;
+	return visited
+
 array=BFS(data,'Rogier','Roi Baudouin')
 print array
 print len(array)
+array1=DFS(data,'Rogier','Roi Baudouin')
+print array1
